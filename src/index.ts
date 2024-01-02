@@ -1,6 +1,9 @@
 import express from 'express';
 import { createConnection } from 'typeorm';
 
+import CustomerRoutes from "./routes/Customer";
+import BankerRoutes from "./routes/Banker";
+
 const app = express();
 const port = process.env.PORT || '8000';
 
@@ -20,6 +23,12 @@ const startServer = async () => {
     } catch(error) {
         throw new Error(`Unable to connect to DB: ${error}`)
     }
+
+    app.use(express.json());
+
+    app.use("/api", CustomerRoutes);
+    app.use("/api", BankerRoutes);
+
     app.listen(port, () => console.log(`Server started at: http://localhost:${port}`));
 }
 
